@@ -181,3 +181,4 @@ This bot is a technical-alert tool, not a financial adviser. Free market data ma
 [1]: https://core.telegram.org/bots/api "Telegram Bot API"
 [2]: https://ranaroussi.github.io/yfinance/ "yfinance documentation"
 [3]: https://docs.python-telegram-bot.org/en/stable/ "python-telegram-bot documentation"
+\n\n---\nBuild optimization by Manus AI
