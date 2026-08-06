@@ -1,1 +1,0 @@
-[phases.setup]\nnixPkgs = ["python311"]\n\n[phases.install]\ncmds = ["pip install -r requirements.txt"]\n\n[start]\ncmd = "python3 shake_bot.py"
