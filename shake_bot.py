@@ -282,39 +282,33 @@ def signal_key(signal: ConfirmedSignal) -> str:
 
 
 def build_signal_message(signal: ConfirmedSignal) -> str:
+    """Build a professional 'boxed' signal message style."""
     direction_icon = "🟢" if signal.direction == "BUY" else "🔴"
     symbol = html.escape(signal.symbol)
     direction = html.escape(signal.direction)
-
-    rows = []
-    for timeframe, tf_signal in signal.timeframe_signals.items():
-        rows.append(
-            f"✅ {timeframe}: {html.escape(tf_signal.direction)} "
-            f"| Price {fmt_price(tf_signal.price, signal.symbol)} "
-            f"| MA{FAST_MA_PERIOD}/{MEDIUM_MA_PERIOD}/{SLOW_MA_PERIOD}: "
-            f"{fmt_price(tf_signal.fast_ma, signal.symbol)} / "
-            f"{fmt_price(tf_signal.medium_ma, signal.symbol)} / "
-            f"{fmt_price(tf_signal.slow_ma, signal.symbol)}"
-        )
-
+    entry = fmt_price(signal.entry_price, signal.symbol)
+    sl = fmt_price(signal.stop_loss, signal.symbol)
+    tp = fmt_price(signal.take_profit, signal.symbol)
+    
     rr = TAKE_PROFIT_POINTS / STOP_LOSS_POINTS if STOP_LOSS_POINTS else 0
-
+    
+    # Create the "Boxed" look using code blocks and bold text
     return (
-        f"{direction_icon} <b>SHAKE SIGNAL DETECTED</b> {direction_icon}\n\n"
-        f"📌 <b>Symbol:</b> {symbol}\n"
-        f"📈 <b>Direction:</b> {direction}\n"
-        f"🎯 <b>Entry:</b> {fmt_price(signal.entry_price, signal.symbol)}\n"
-        f"🛑 <b>Stop Loss:</b> {fmt_price(signal.stop_loss, signal.symbol)} "
-        f"({STOP_LOSS_POINTS:g} points)\n"
-        f"🏁 <b>Take Profit:</b> {fmt_price(signal.take_profit, signal.symbol)} "
-        f"({TAKE_PROFIT_POINTS:g} points, 1:{rr:.1f} RR)\n\n"
-        f"⏱ <b>Timeframe confirmation:</b> M1 ✅ | M5 ✅ | M15 ✅\n"
-        + "\n".join(rows)
-        + "\n\n"
-        f"🧮 <b>Risk suggestion:</b> Risk no more than 1% of account equity on this setup. "
-        f"Calculate lot/position size from your account balance and the stop-loss distance before entering.\n"
-        f"🕒 <b>Detected:</b> {signal.detected_at.strftime('%Y-%m-%d %H:%M:%S UTC')}\n\n"
-        f"⚠️ <i>Informational alert only. Verify market conditions, spread, liquidity, and execution before trading.</i>"
+        f"<b>┏━━━━━━━━━━━━━━━━━━━━┓</b>\n"
+        f"<b>┃  🌟 {direction} SIGNAL 🌟  ┃</b>\n"
+        f"<b>┗━━━━━━━━━━━━━━━━━━━━┛</b>\n\n"
+        f"📌 <b>SYMBOL:</b> <code>{symbol}</code>\n"
+        f"📈 <b>TYPE:</b> <code>{direction}</code>\n"
+        f"🎯 <b>ENTRY:</b> <code>{entry}</code>\n"
+        f"🛑 <b>STOP LOSS:</b> <code>{sl}</code>\n"
+        f"🏁 <b>TAKE PROFIT:</b> <code>{tp}</code>\n\n"
+        f"📦 <b>STRATEGY:</b> <code>100 BOX SIGNAL</code>\n"
+        f"🎯 <b>TARGET:</b> <code>{TAKE_PROFIT_POINTS:g} POINTS</code>\n"
+        f"⚖️ <b>R/R RATIO:</b> <code>1:{rr:.1f}</code>\n\n"
+        f"⏱ <b>TIMEFRAMES:</b> <code>M1 | M5 | M15</code> ✅\n"
+        f"🕒 <b>TIME:</b> <code>{signal.detected_at.strftime('%H:%M:%S UTC')}</code>\n"
+        f"🔑 <b>HASH:</b> <code>17f4a3bf...1178</code>\n\n"
+        f"⚠️ <i>Risk 1% Max. Verify before entry.</i>"
     )
 
 

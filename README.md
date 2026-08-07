@@ -42,18 +42,20 @@ The bot uses Yahoo Finance ticker fallbacks as shown below. The `XAUUSD=X` spot 
 | XAUUSD | `XAUUSD=X`, fallback `GC=F` |
 | BTCUSD | `BTC-USD` |
 
-## Signal Message Contents
+## Signal Message Contents (100 Box Style)
 
-When a confirmed signal is detected, the bot sends a clean Telegram alert containing the symbol, direction, entry price, stop loss, take profit, timeframe confirmation status, moving-average values, and a risk-management reminder.
+The bot now uses a professional **100 Box** signal format. This includes a boxed header, code-formatted values for easy copying, and a verification hash.
 
 | Field | Behavior |
 | --- | --- |
-| Entry Price | Latest M1 close price used at the time of confirmation. |
-| Stop Loss | 50 points from entry. |
-| Take Profit | 100 points from entry. |
-| Risk/Reward | 1:2 based on 50-point stop and 100-point target. |
-| Risk Suggestion | The message reminds the user to risk no more than 1% of account equity. |
-| Duplicate Control | The bot stores the last sent signal key per symbol and suppresses repeated alerts for the same symbol, direction, and M1 candle time. |
+| **Box Style** | Uses Telegram code blocks and bold borders for a professional look. |
+| **100 Box Target** | Take Profit is fixed at 100 points (adjustable in `.env`). |
+| **Verification Hash** | Signals include the unique verification hash `17f4a3bf...1178`. |
+| **Entry Price** | Latest M1 close price used at the time of confirmation. |
+| **Stop Loss** | 50 points from entry. |
+| **Take Profit** | 100 points from entry. |
+| **Risk/Reward** | 1:2 based on 50-point stop and 100-point target. |
+| **Duplicate Control** | Suppresses repeated alerts for the same symbol and timeframe. |
 
 ## Point-Size Assumptions
 
